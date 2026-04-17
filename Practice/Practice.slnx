@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/Practice1/">
+    <Project Path="Practice1.Task1/Practice1.Task1.csproj" />
+    <Project Path="Practice1.Task2/Practice1.Task2.csproj" />
+    <Project Path="Practice1.Task3/Practice1.Task3.csproj" />
+    <Project Path="Practice1.Task4/Practice1.Task4.csproj" />
+    <Project Path="Practice1.Task5/Practice1.Task5.csproj" />
+    <Project Path="Practice1.Task6/Practice1.Task6.csproj" />
+  </Folder>
+  <Folder Name="/Practice2/">
+    <Project Path="Practice2.Tack10/Practice2.Tack10.csproj" />
+    <Project Path="Practice2.Task1/Practice2.Task1.csproj" Id="cdb475e3-c558-4ab4-9416-1c0373000c1b" />
+    <Project Path="Practice2.Task11/Practice2.Task11.csproj" />
+    <Project Path="Practice2.Task12/Practice2.Task12.csproj" />
+    <Project Path="Practice2.Task13/Practice2.Task13.csproj" />
+    <Project Path="Practice2.Task14/Practice2.Task14.csproj" />
+    <Project Path="Practice2.Task15/Practice2.Task15.csproj" Id="f3a3f542-a5a5-49da-97a1-82b25c3092a9" />
+    <Project Path="Practice2.Task16/Practice2.Task16.csproj" Id="f518011f-5709-4370-bc11-84da9286eb4d" />
+    <Project Path="Practice2.Task17/Practice2.Task17.csproj" Id="0f54bf00-3aea-4569-9fde-822f682f09d5" />
+    <Project Path="Practice2.Task18/Practice2.Task18.csproj" Id="873f5c7a-a54e-4879-8188-e7035563e51f" />
+    <Project Path="Practice2.Task19/Practice2.Task19.csproj" Id="2f71dfab-740d-4bae-bcc2-fca418cd8430" />
+    <Project Path="Practice2.Task2/Practice2.Task2.csproj" Id="b939c7db-4093-4802-ac70-1b11685e3354" />
+    <Project Path="Practice2.Task20/Practice2.Task20.csproj" Id="59611820-58f3-418f-8fa8-e01e31212773" />
+    <Project Path="Practice2.Task21/Practice2.Task21.csproj" Id="a2f6aba8-8075-440d-be19-c060a0a39b81" />
+    <Project Path="Practice2.Task22/Practice2.Task22.csproj" Id="6317e9fc-fb0f-4d51-ad14-a4c371a20fe6" />
+    <Project Path="Practice2.Task23/Practice2.Task23.csproj" Id="867c5ca3-a475-4844-80ac-c4e3b5f188c5" />
+    <Project Path="Practice2.Task24/Practice2.Task24.csproj" Id="e15e75c4-12bc-4d9a-b999-b470b6084e48" />
+    <Project Path="Practice2.Task25/Practice2.Task25.csproj" Id="462542b8-8598-4777-93e3-5cea69ad8c35" />
+    <Project Path="Practice2.Task3/Practice2.Task3.csproj" Id="36dbdc49-40a0-4b97-b1fe-ca222a243783" />
+    <Project Path="Practice2.Task4/Practice2.Task4.csproj" Id="6cc243b7-c3b8-4579-ac38-7931eb916915" />
+    <Project Path="Practice2.Task5/Practice2.Task5.csproj" Id="10b5e116-40b8-43e8-a61c-f60c72bc379e" />
+    <Project Path="Practice2.Task6/Practice2.Task6.csproj" Id="a22eb13c-671f-47ea-bcc7-d1266855acdd" />
+    <Project Path="Practice2.Task7/Practice2.Task7.csproj" />
+    <Project Path="Practice2.Task8/Practice2.Task8.csproj" />
+    <Project Path="Practice2.Task9/Practice2.Task9.csproj" />
+  </Folder>
+</Solution>
