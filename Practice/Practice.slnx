@@ -34,4 +34,9 @@
     <Project Path="Practice2.Task8/Practice2.Task8.csproj" />
     <Project Path="Practice2.Task9/Practice2.Task9.csproj" />
   </Folder>
+  <Folder Name="/Practice3/" />
+  <Folder Name="/TicAndTac/">
+    <Project Path="TicAndTac/TicAndTac/TicAndTac.csproj" />
+    <Project Path="TicAndTac/TicAndTac2/TicAndTac2.csproj" />
+  </Folder>
 </Solution>
