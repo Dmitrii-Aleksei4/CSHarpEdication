@@ -2,6 +2,17 @@
 
 namespace TicAndTac
 {
+    public enum Weekday
+    {
+        Monday,
+        Tuesday, 
+        Wednesday,
+        Thursday,
+        Friday,
+        Satterday,
+        Sunday
+    }
+
     internal class Program
     {
         static void Main(string[] args)
@@ -206,6 +217,10 @@ namespace TicAndTac
 
 
 
+        }
+        private static void Foo(Weekday weekday)
+        {
+            weekday.
         }
     }
 }

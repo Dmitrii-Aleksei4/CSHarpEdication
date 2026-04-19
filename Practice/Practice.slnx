@@ -34,7 +34,10 @@
     <Project Path="Practice2.Task8/Practice2.Task8.csproj" />
     <Project Path="Practice2.Task9/Practice2.Task9.csproj" />
   </Folder>
-  <Folder Name="/Practice3/" />
+  <Folder Name="/Practice3/">
+    <Project Path="Practice3.Task1/Practice3.Task1.csproj" Id="57af009c-6d6e-4042-bcab-1a7412b9bb0a" />
+    <Project Path="Practice3.Task2/Practice3.Task2.csproj" Id="81754533-f41b-4d13-a59c-4a3d6feb329e" />
+  </Folder>
   <Folder Name="/TicAndTac/">
     <Project Path="TicAndTac/TicAndTac/TicAndTac.csproj" />
     <Project Path="TicAndTac/TicAndTac2/TicAndTac2.csproj" />
