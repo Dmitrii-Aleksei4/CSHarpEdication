@@ -35,8 +35,17 @@
     <Project Path="Practice2.Task9/Practice2.Task9.csproj" />
   </Folder>
   <Folder Name="/Practice3/">
+    <Project Path="Practice.3Task9/Practice3.Task9.csproj" Id="bc4e1edb-801a-486f-86f0-be43aa254e73" />
     <Project Path="Practice3.Task1/Practice3.Task1.csproj" Id="57af009c-6d6e-4042-bcab-1a7412b9bb0a" />
+    <Project Path="Practice3.Task10/Practice3.Task10.csproj" Id="a58beb76-b5e3-4edd-b09e-7d82cebf06b1" />
+    <Project Path="Practice3.Task11/Practice3.Task11.csproj" Id="52e6fbb5-c4bd-4ef4-85b1-5eea68072935" />
     <Project Path="Practice3.Task2/Practice3.Task2.csproj" Id="81754533-f41b-4d13-a59c-4a3d6feb329e" />
+    <Project Path="Practice3.Task3/Practice3.Task3.csproj" Id="e3cf3aca-cc64-47de-987c-efd7e33feec0" />
+    <Project Path="Practice3.Task4/Practice3.Task4.csproj" Id="dc22fad5-6cc6-45af-92b3-b21077c46a01" />
+    <Project Path="Practice3.Task5/Practice3.Task5.csproj" Id="8bdb71e1-45c2-4b79-b8a6-bfefd44aa39b" />
+    <Project Path="Practice3.Task6/Practice3.Task6.csproj" Id="14504612-0765-4c25-90b0-cfec4ea33cae" />
+    <Project Path="Practice3.Task7/Practice3.Task7.csproj" Id="cb5eedd4-89ba-4ecc-ae27-534c5b0a8b17" />
+    <Project Path="Practice3.Task8/Practice3.Task8.csproj" Id="dc835427-b551-4b2b-999c-fc02eaa96632" />
   </Folder>
   <Folder Name="/TicAndTac/">
     <Project Path="TicAndTac/TicAndTac/TicAndTac.csproj" />
