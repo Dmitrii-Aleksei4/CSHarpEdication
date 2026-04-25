@@ -48,7 +48,9 @@
     <Project Path="Practice3.Task8/Practice3.Task8.csproj" Id="dc835427-b551-4b2b-999c-fc02eaa96632" />
   </Folder>
   <Folder Name="/TicAndTac/">
+    <File Path="TicAndTac/readmi.txt" />
     <Project Path="TicAndTac/TicAndTac/TicAndTac.csproj" />
     <Project Path="TicAndTac/TicAndTac2/TicAndTac2.csproj" />
+    <Project Path="TicAndTac/TicAndTac6/TicAndTac6.csproj" />
   </Folder>
 </Solution>
