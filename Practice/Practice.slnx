@@ -53,4 +53,11 @@
     <Project Path="TicAndTac/TicAndTac2/TicAndTac2.csproj" />
     <Project Path="TicAndTac/TicAndTac6/TicAndTac6.csproj" />
   </Folder>
+  <Folder Name="/Телефонная книга/">
+    <File Path="PhoneBook/Readmi PhoneBook.txt" />
+    <Project Path="PhoneBook/PhonBook_1/PhonBook_1.csproj" />
+    <Project Path="PhoneBook/PhoneBook_2/PhoneBook_2.csproj" />
+    <Project Path="PhoneBook/PhoneBook_3_SQL_Dapper/PhoneBook_3_SQL_Dapper.csproj" />
+    <Project Path="PhoneBook/PhoneBook_4_SQL_Dapper/PhoneBook_4_SQL_Dapper.csproj" />
+  </Folder>
 </Solution>
