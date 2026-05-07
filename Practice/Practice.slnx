@@ -34,6 +34,12 @@
     <Project Path="Practice2.Task8/Practice2.Task8.csproj" />
     <Project Path="Practice2.Task9/Practice2.Task9.csproj" />
   </Folder>
+  <Folder Name="/Practice3.2/">
+    <Project Path="Library_3.3/Library_3.3.csproj" Id="a3ba7d50-4fd7-43ea-98ca-c39aec5b0bc7" />
+    <Project Path="Library_3/Library_3.csproj" Id="faf70687-9c81-4c8c-b46e-f9268fdb24ae" />
+    <Project Path="Practice3.2.Taks1/Practice3.2.Taks2.csproj" Id="7292041b-febf-4457-9c81-b14b9e26821d" />
+    <Project Path="Practice3.2.Taks3/Practice3.2.Taks3.csproj" Id="6664fbbf-1362-4e66-baf2-3300d67e8920" />
+  </Folder>
   <Folder Name="/Practice3/">
     <Project Path="Practice.3Task9/Practice3.Task9.csproj" Id="bc4e1edb-801a-486f-86f0-be43aa254e73" />
     <Project Path="Practice3.Task1/Practice3.Task1.csproj" Id="57af009c-6d6e-4042-bcab-1a7412b9bb0a" />
