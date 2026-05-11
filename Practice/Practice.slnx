@@ -59,6 +59,12 @@
     <Project Path="TicAndTac/TicAndTac2/TicAndTac2.csproj" />
     <Project Path="TicAndTac/TicAndTac6/TicAndTac6.csproj" />
   </Folder>
+  <Folder Name="/Судоку решатель/">
+    <File Path="Sudoku/readmi.txt" />
+    <Project Path="Sudoku/Sudoku/Sudoku_1.csproj" />
+    <Project Path="Sudoku/Sudoku2/Sudoku2.csproj" />
+    <Project Path="Sudoku/Sudoku3/Sudoku_3.csproj" />
+  </Folder>
   <Folder Name="/Телефонная книга/">
     <File Path="PhoneBook/Readmi PhoneBook.txt" />
     <Project Path="PhoneBook/PhonBook_1/PhonBook_1.csproj" />
