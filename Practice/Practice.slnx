@@ -68,7 +68,7 @@
     <Project Path="Homework/PhoneBook/PhoneBook_4_SQL_Dapper/PhoneBook_4_SQL_Dapper.csproj" />
   </Folder>
   <Folder Name="/Домашка/4. Данные сотрудников/">
-    <Project Path="Data_job_1.0/Data_job_1.0.csproj" Id="a29a1baa-b52d-4022-9c11-4d2e1e811776" />
+    <Project Path="Homework/Data_job/Data_job_1.0/Data_job_1.0.csproj" Id="a29a1baa-b52d-4022-9c11-4d2e1e811776" />
   </Folder>
   <Folder Name="/Хобби/" />
   <Folder Name="/Хобби/Судоку решатель/">
