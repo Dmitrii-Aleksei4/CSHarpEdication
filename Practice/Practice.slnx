@@ -53,6 +53,9 @@
     <Project Path="Practice3.Task7/Practice3.Task7.csproj" Id="cb5eedd4-89ba-4ecc-ae27-534c5b0a8b17" />
     <Project Path="Practice3.Task8/Practice3.Task8.csproj" Id="dc835427-b551-4b2b-999c-fc02eaa96632" />
   </Folder>
+  <Folder Name="/Practice5/">
+    <Project Path="Practice5.1/Practice5.Tesk1.csproj" Id="5978ae56-04fb-482e-8422-17ecbea4c4a7" />
+  </Folder>
   <Folder Name="/TicAndTac/">
     <File Path="TicAndTac/readmi.txt" />
     <Project Path="TicAndTac/TicAndTac/TicAndTac.csproj" />

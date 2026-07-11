@@ -23,6 +23,15 @@ namespace Sudoku_1
             Console.WriteLine("-----------------");
             Console.ReadKey();
         }
+        public static void ShowFinalScrean()
+        {
+            Console.WriteLine("!!Разгадка судоку завершена!!");
+            Console.WriteLine($" Понадобилось {count} попыток");
+            Console.ReadKey();
+
+
+
+        }
 
     }
 }

@@ -23,8 +23,13 @@ namespace Sudoku_1
                 // отрисовка кубика
                 UI.ShowStartGame(sudoku.NewSudoku);
                 // сброс кубика до пустого
+                if (sudoku.NewSudoku.Cast<string>().All(x => x != " "))
+                {
+                    UI.ShowFinalScrean();
+                    break;
+                }
                 sudoku.ResetCub();
-
+                
                 // прохождение по массиву
                 for (int y = 0; y< sudoku.NewSudoku.GetLength(0); y++)
                 {
