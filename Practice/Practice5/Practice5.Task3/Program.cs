@@ -30,6 +30,16 @@
                 animal.MakeSound();
             }
 
+
+            // Интерфейс 
+            Console.WriteLine();
+            Console.WriteLine("Интерфейсы");
+            List<IFlyable> inter = new List<IFlyable>() { new Eagle(), new Parrot()};
+
+            foreach (var i  in inter)
+            {
+                i.Fly();
+            }
             Console.ReadKey();
         }
     }

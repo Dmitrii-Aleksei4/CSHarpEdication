@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.72" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.7" />
-    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
+    <ProjectReference Include="..\CodenamesCore\CodenamesCore.csproj" />
   </ItemGroup>
 
 </Project>

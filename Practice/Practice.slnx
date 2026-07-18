@@ -76,6 +76,17 @@
   <Folder Name="/Домашка/4. Данные сотрудников/">
     <Project Path="Homework/Data_job/Data_job_1.0/Data_job_1.0.csproj" Id="a29a1baa-b52d-4022-9c11-4d2e1e811776" />
   </Folder>
+  <Folder Name="/Финальная работа/" />
+  <Folder Name="/Финальная работа/v_1_0/">
+    <Project Path="FinalJob/gameCodeNames/Codenames_v_1_0/Codenames.Core/CodenamesCore.csproj" Id="c5c2810a-d8f7-4ecc-a586-90a11634f5a3" />
+    <Project Path="FinalJob/gameCodeNames/Codenames_v_1_0/Codenames_v_1_0.csproj" Id="3b82558e-db37-4f72-b6f1-325b49924bbd" />
+    <Project Path="FinalJob/gameCodeNames/Codenames_v_1_0/Console.UI/Consol.UI.csproj" Id="2dc7a01e-d12f-4fe3-b336-9dd2ad6cc4df" />
+  </Folder>
+  <Folder Name="/Финальная работа/v_2_0/">
+    <Project Path="FinalJob/gameCodeNames/Codenames_v_2_0/CodenamesCore/CodenamesCore.csproj" Id="c56b7c04-8d3a-4d6e-84c4-14c0bde9b981" />
+    <Project Path="FinalJob/gameCodeNames/Codenames_v_2_0/Console.UI/Console.UI.csproj" Id="45745ad2-91cd-45fb-bae1-016bde2b77e2" />
+  </Folder>
+   
   <Folder Name="/Хобби/" />
   <Folder Name="/Хобби/Судоку решатель/">
     <File Path="Sudoku/readmi.txt" />

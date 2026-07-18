@@ -11,7 +11,12 @@ namespace Practice5.Task3
         public string Name
         {
             get { return _name; }  // get - возвращает значение
-            set { Console.WriteLine($"{value} - create - на провеке"); } // set - устанавливает значение
+            set
+            {
+                _name = value; // обязательная строка для присвоения
+                Console.WriteLine($"{value} - create - на провеке");  // set - устанавливает значение
+            } 
+
         }
         public int Age { get; set; }
 

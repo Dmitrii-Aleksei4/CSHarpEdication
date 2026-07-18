@@ -10,12 +10,12 @@ namespace Practice5.Task3
         {
             Console.WriteLine($"{Name} says: Meow!");
         }
-
+        /*
         public void Displey()
         {
             base.Displey();
         }
-
+        */
 
         public Cat() : base() { }
         public Cat(string name, int age) : base(name, age) { }
