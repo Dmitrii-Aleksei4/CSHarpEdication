@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Consol.UI
 {
-    public class Logic
+    public class Logic2
     {
         private MethodsGames methodsGames;
         private UI ui;
@@ -36,31 +36,32 @@ namespace Consol.UI
                 {
                     case 404: // неверный ввод
                         {
-                            ui.InfoScreen(inputInfoMenu, 1, false, true);
+                            ui.InfoScreen(inputInfoMenu, 0.5, false, true);
                             break;
                         }
                     case 1: // игровое поле 5х5
                         {
-                            ui.InfoScreen(inputInfoMenu,1,false,true);
+                            ui.InfoScreen(inputInfoMenu,0.5,false,true);
 
                             GameSettings(5,5);
                             break;
                         }
                     case 2:// игровое поле 5х6
                         {
-                            ui.InfoScreen(inputInfoMenu, 1, false, true);
+                            ui.InfoScreen(inputInfoMenu, 0.5, false, true);
                             GameSettings(5, 6);
                             break;
                         }
-                    case 3: // получение словаря
+                    case 3: // Свое игровое поле
                         {
-                            ui.InfoScreen(inputInfoMenu, 1, false, true);
-                            ui.ChoiseSettingBattleScrin();
+                            ui.InfoScreen(inputInfoMenu, 0.5, false, true);
+                            //ui.ChoiseSettingBattleScrin();
+                            GameSettings(2,3);
                             break;
                         }
                     case 4: // получение правил
                         {
-                            ui.InfoScreen(inputInfoMenu, 1, false, true);
+                            ui.InfoScreen(inputInfoMenu, 0.5, false, true);
                             ui.InfoScreen(methodsDB.GetRulesGame(), 1, false, false);
                             Console.ReadKey();
                             ui.InfoScreen("", 0, false, true);
@@ -69,7 +70,7 @@ namespace Consol.UI
                     case 5: // выход
                         {
 
-                            ui.InfoScreen(inputInfoMenu, 1, false, true);
+                            ui.InfoScreen(inputInfoMenu, 0.5, false, true);
                             ui.InfoScreen("Спасибо что поиграли в нашу игру", 2, false, true);
                             Environment.Exit(0);
                             break;
@@ -158,9 +159,9 @@ namespace Consol.UI
 
             //Купаск таймера 
             TimerGame timer = new TimerGame();
-            timer.Start(10, curTimeX, curTimeY, ()=> 
+            timer.Start(10, curTimeX, curTimeY, "Оставшееся время на раздумие капитанов", ()=> 
             {
-                ui.InfoScreen("", 0, true, false);
+                
                 GameStepTwo(battleGame); 
             });
             
@@ -187,6 +188,8 @@ namespace Consol.UI
                 {
                     timer.Stop();
                     ui.InfoScreen("", 0, true, true);
+                    
+                    
                     GameStepTwo(battleGame);
                     break;
                 }
@@ -194,7 +197,10 @@ namespace Consol.UI
             }
 
         }
-        // основная игра 
+        /// <summary>
+        /// обработчик ходом игроков
+        /// </summary>
+        /// <param name="battleGame"></param>
         public void GameStepTwo(BattleGame battleGame)
         {
 
@@ -208,7 +214,7 @@ namespace Consol.UI
             while (whileIndicator)
             {
                 // блок вывода на экран 
-                ui.InfoScreen("", 0, true, false);
+                ui.InfoScreen("", 0, true, true);
                 ui.UsersBattleScrin(battleGame);
                 ui.InfoScreen($"Сейчас ходят {battleGame.NameCommand[2]}");
                 ui.InfoScreen("Вводите слова по одному через Enter ");
@@ -224,10 +230,14 @@ namespace Consol.UI
 
                     //Купаск таймера 
                     
-                    timer.Start(60, curTimeX, curTimeY, () =>
+                    timer.Start(10, curTimeX, curTimeY, "Оставшееся время команды", () =>
                     {
                         whileIndicator = false;
                         timerIndicator = true;
+                        battleGame.NameCommand[2] = battleGame.NameCommand[1] == battleGame.NameCommand[2] ? battleGame.NameCommand[0] : battleGame.NameCommand[1];
+                        //TimeCaptians2(battleGame);
+                        //GameStepTwo(battleGame);
+                        
                     });
                     
                 }
@@ -237,34 +247,45 @@ namespace Consol.UI
                 ui.InfoScreen("");
                 Console.SetCursorPosition(curTimeX, curTimeY+3);
 
-                //ui.InfoScreen("");
-
-                //ui.InfoScreen(");
-                //Console.SetCursorPosition(curTimeX, curTimeY);
+                // запись количества проходов 
                 int repeatIndicator = 0;
 
                 for (int y = 0; y < battleGame.ListWordsGame.Count; y++)
                 {
                     for (int x = 0; x < battleGame.ListWordsGame[y].Count; x++)
                     {
-                        //if ((battleGame.ListWordsGame[y][x].SecretWords.Keys.FirstOrDefault().ToLower() == input) && (battleGame.ListWordsGame[y][x].VisibilityColor = false))
-
+                        
+                        // сравниваем каждую ячейку слова
                         if (battleGame.ListWordsGame[y][x].SecretWords.Keys.FirstOrDefault().ToLower() == input)
                         {
+                            // делаем видимый цвет ячейки
                             battleGame.ListWordsGame[y][x].VisibilityColor = true;
 
                           
-
+                            // сверяем цвет ячейки с цветом команды RED ( используя ключ открываем словарь чтобы узнать цвет)
                             if (battleGame.ListWordsGame[y][x].SecretWords[char.ToUpper(input[0]) + input.Substring(1).ToLower()] == RolesSpies.red)
 
                             {
+                                // если одинаковый игра продолжается
+                                // вычитаем из списка команд 1 агента красной команды
                                 battleGame.RulesAgents[RolesSpies.red]--;
+
+                                if (battleGame.RulesAgents[RolesSpies.red] == 0)
+                                {
+                                    CheckVictory(battleGame, "Победил");
+                                    timer.Stop();
+                                    whileIndicator = false;
+                                    //прекращение обхода оси X
+                                    break;
+                                }
+                                // если цвет слова и команды  не одинаковый ход прервывается 
                                 if (battleGame.NameCommand[2] != battleGame.NameCommand[1])
                                 {
                                     ui.InfoScreen("Переход хода ", 2);
                                     timer.Stop();
                                     timerIndicator = true;
                                     battleGame.NameCommand[2] = battleGame.NameCommand[1];
+                                    TimeCaptians2(battleGame);
                                 }
                             }   
 
@@ -272,20 +293,38 @@ namespace Consol.UI
                             if (battleGame.ListWordsGame[y][x].SecretWords[char.ToUpper(input[0]) + input.Substring(1).ToLower()] == RolesSpies.blue)
                             {
                                 battleGame.RulesAgents[RolesSpies.blue]--;
+
+                                if (battleGame.RulesAgents[RolesSpies.blue] == 0)
+                                {
+                                    CheckVictory(battleGame, "Победил");
+                                    timer.Stop();
+                                    whileIndicator = false;
+                                    //прекращение обхода оси X
+                                    break;
+                                }
+                                // если цвет слова и команды  не одинаковый ход прервывается 
                                 if (battleGame.NameCommand[2] != battleGame.NameCommand[0])
                                 {
                                     ui.InfoScreen("Переход хода ", 2);
                                     timer.Stop();
                                     timerIndicator = true;
                                     battleGame.NameCommand[2] = battleGame.NameCommand[0];
+                                    TimeCaptians2(battleGame);
                                 }
 
                             }
 
 
+
+
+                            // если черный цвет игра проиграна 
                             if (battleGame.ListWordsGame[y][x].SecretWords[char.ToUpper(input[0]) + input.Substring(1).ToLower()] == RolesSpies.black)
                             {
-                                ui.InfoScreen($"Игра окончане {battleGame.NameCommand[2]} ПРОИГРАЛИ ", 2);
+                                CheckVictory(battleGame, "ПРОИГРАЛ");
+                                timer.Stop();
+                                whileIndicator = false;
+                                //прекращение обхода оси X
+                                break;
                             }
 
                             
@@ -302,7 +341,10 @@ namespace Consol.UI
                     if (repeatIndicator == battleGame.ListWordsGame.Count * battleGame.ListWordsGame[y].Count) 
                     { ui.InfoScreen("Нет такого слова");
                         Thread.Sleep(2000);
+
                     }
+                    // прекращение цикла фор по оси Y
+                    if (!whileIndicator) { break; }
                 }
                 //пополняем списко слов
                 inputWords += input + ", ";
@@ -311,15 +353,163 @@ namespace Consol.UI
             }
         }
 
+        /// <summary>
+        /// Обработка раздумий капитанов
+        /// </summary>
+        /// <param name="battleGame"></param>
+        public void TimeCaptians(BattleGame battleGame)
+
+        {
+
+
+            // показатель что таймер запущен 
+            bool timerIndicator = true;
+            
+            //сброс цикца
+            bool whileIndicator = true;
+            
+            
+
+            TimerGame timer = new TimerGame();
+            while (whileIndicator)
+            {
+                // блок вывода на экран 
+                ui.InfoScreen("", 0, true, true);
+                ui.UsersBattleScrin(battleGame);
+                ui.InfoScreen($"Сейчас Думаю капитаны {battleGame.NameCommand[2]}");
+                // координаты курсора для таймера 
+                int curTimeX = Console.CursorLeft;
+                int curTimeY = Console.CursorTop;
+
+
+                if (timerIndicator == true)
+                {
+                    timerIndicator = false;
+                   
+                    //Купаск таймера 
+
+                    timer.Start(10, curTimeX, curTimeY, "Оставшееся время на раздумие капитана", () =>
+                    {
+                        whileIndicator = false;
+                        timerIndicator = true;
+                        return;
+                        //battleGame.NameCommand[2] = battleGame.NameCommand[1] == battleGame.NameCommand[2] ? battleGame.NameCommand[0] : battleGame.NameCommand[1];
+                        
+                    });
+                
+                }
+                while (whileIndicator)
+                {
+                    ui.InfoScreen("Готовы капитан готов начать ? y/n ?", 1, false, false);
+                    (int inputNumberMenu, string inputInfoMenu) = methodsKeyBord.GetYesNoKeyBord();
+                    // буфер обмена информациооного сообщения
+                    if (inputNumberMenu == 0)
+                    { ui.InfoScreen("Капитаны думаю дальше", 0, false, false); }
+                    else
+                    {
+                        timer.Stop();
+                        ui.InfoScreen("", 0, true, true);
+                        GameStepTwo(battleGame);
+                        whileIndicator = false;
+
+                        break;
+                    }
+
+                }
+
+
+
+            }
+
+        }
+
+        public void TimeCaptians2(BattleGame battleGame)
+        {
+            bool timerIndicator = true;
+            bool whileIndicator = true;
+            TimerGame timer = new TimerGame();
+            bool timerExpired = false; // <-- Флаг истечения таймера
+
+            while (whileIndicator)
+            {
+                ui.InfoScreen("", 0, true, true);
+                ui.UsersBattleScrin(battleGame);
+                ui.InfoScreen($"Сейчас Думаю капитаны {battleGame.NameCommand[2]}");
+
+                int curTimeX = Console.CursorLeft;
+                int curTimeY = Console.CursorTop;
+
+                if (timerIndicator == true)
+                {
+                    timerIndicator = false;
+                    timerExpired = false; // Сбрасываем флаг
+
+                    timer.Start(10, curTimeX, curTimeY, "Оставшееся время на раздумие капитана", () =>
+                    {
+                        timerExpired = true; // <-- Таймер истёк
+                        whileIndicator = false;
+                        timerIndicator = true;
+                    });
+                }
+
+                // ВНУТРЕННИЙ ЦИКЛ
+                while (whileIndicator)
+                {
+                    // ПРОВЕРКА: если таймер истёк - ВЫХОДИМ
+                    if (timerExpired)
+                    {
+                        ui.InfoScreen("Время вышло!", 0, true, true);
+                        return; // <-- Выход из метода
+                    }
+
+                    ui.InfoScreen("Готовы капитан готов начать ? y/n ?", 1, false, false);
+
+                    // ПРОВЕРКА ПЕРЕД ОЖИДАНИЕМ ВВОДА
+                    if (timerExpired)
+                    {
+                        return;
+                    }
+
+                    (int inputNumberMenu, string inputInfoMenu) = methodsKeyBord.GetYesNoKeyBord();
+
+                    if (inputNumberMenu == 0)
+                    {
+                        ui.InfoScreen("Капитаны думаю дальше", 0, false, false);
+                    }
+                    else
+                    {
+                        timer.Stop();
+                        ui.InfoScreen("", 0, true, true);
+                        GameStepTwo(battleGame);
+                        whileIndicator = false;
+                        break;
+                    }
+                }
+            }
+        }
 
 
 
 
 
+        /// <summary>
+        /// Обявление победителя
+        /// </summary>
+        /// <param name="y"></param>
+        /// <param name="x"></param>
+        /// <param name="whileIndicator"></param>
+        public void CheckVictory(BattleGame battleGame, string info)
+        {
+            ui.InfoScreen("", 0, false, true);
+            ui.UsersBattleScrin(battleGame);
+            ui.InfoScreen($"{battleGame.NameCommand[2]} - {info}",5);
+        }
 
 
-
-                    public Logic()
+        /// <summary>
+        /// Конструктор логики
+        /// </summary>
+        public Logic2()
         {
             methodsGames = new MethodsGames();
             ui = new UI();

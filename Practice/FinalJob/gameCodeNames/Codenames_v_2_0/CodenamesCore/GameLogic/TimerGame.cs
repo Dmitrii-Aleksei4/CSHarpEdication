@@ -21,7 +21,7 @@ namespace CodenamesCore.GameLogic
                     _cts.Token.ThrowIfCancellationRequested();
                     Console.SetCursorPosition(curTimeX, curTimeY);
                     minuts = i / 60; second = i % 60;
-                    Console.WriteLine($"Оставшееся время команды: {minuts}:{second}");
+                    Console.WriteLine($"в {minuts}:{second}");
                     await Task.Delay(1000, _cts.Token);  // Передаем токен в Delay
                 }
             }

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using CodenamesCore.Model;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
-using CodenamesCore.Model;
 
 namespace Consol.UI
 {
@@ -13,9 +14,9 @@ namespace Consol.UI
         public void StartScrin()
         {
             Console.WriteLine("Введите цифры из меню");
-            Console.WriteLine("1.Игра 5х5");
-            Console.WriteLine("2.Игра 5х6");
-            Console.WriteLine("3.Словарь");
+            Console.WriteLine("1.Игровое поле на 5х5");
+            Console.WriteLine("2.Игровое поле на 5х6");
+            Console.WriteLine("3.Игровое поле на 2х3");
             Console.WriteLine("4.Правла");
 
             Console.WriteLine("5.Выход");
@@ -30,8 +31,9 @@ namespace Consol.UI
             Console.WriteLine("1.Настройка таймера");
             Console.WriteLine("2.Поле для капитанов");
             Console.WriteLine("3.Поле для участников");
-            Console.WriteLine("4.Поле для участников");
-            Console.WriteLine("5.Назад");
+            Console.WriteLine("4.Обновить");
+            Console.WriteLine("5.Словарь");
+            Console.WriteLine("6.Назад");
         }
         /// <summary>
         /// Поле Капитанов 
@@ -60,7 +62,7 @@ namespace Consol.UI
                         {
                             RolesSpies.blue => ConsoleColor.Blue,
                             RolesSpies.red => ConsoleColor.Red,
-                            RolesSpies.black => ConsoleColor.Black,
+                            RolesSpies.black => ConsoleColor.Cyan,
                             _ => ConsoleColor.White
                         };
                     }
@@ -73,7 +75,7 @@ namespace Consol.UI
                             {
                                 RolesSpies.blue => ConsoleColor.Blue,
                                 RolesSpies.red => ConsoleColor.Red,
-                                RolesSpies.black => ConsoleColor.Black,
+                                RolesSpies.black => ConsoleColor.Cyan,
                                 _ => ConsoleColor.White
                             };
                         }
@@ -109,6 +111,24 @@ namespace Consol.UI
             }
         }
 
+
+        public void whoseMoveColorScreen(string info, string capitans)
+        {
+            Console.Write(info + " ");
+            if (capitans == "Красные")
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine(capitans);
+            }
+            else
+            {
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.WriteLine(capitans);
+            }
+            Console.BackgroundColor = ConsoleColor.Black;
+
+        }
+
         /// <summary>
         /// Информационный экран 
         /// </summary>
@@ -116,11 +136,11 @@ namespace Consol.UI
         /// <param name="daley"></param>
         /// <param name="clearStart"></param>
         /// <param name="clearEnd"></param>
-        public void InfoScreen(string info, int daley = 0, bool clearStart = false, bool clearEnd = false)
+        public void InfoScreen(string info, double daley = 0, bool clearStart = false, bool clearEnd = false)
         {
             if (clearStart) { Console.Clear(); }
             Console.WriteLine(info);
-            Thread.Sleep(1000 * daley);
+            Thread.Sleep((int)(daley*1000));
             if(clearEnd) { Console.Clear(); }
         }
     }

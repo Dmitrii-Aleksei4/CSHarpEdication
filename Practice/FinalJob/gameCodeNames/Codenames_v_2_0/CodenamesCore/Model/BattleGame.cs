@@ -9,7 +9,9 @@ namespace CodenamesCore.Model
         public List<List<WordsGame>> ListWordsGame {  get; set; }
         public Dictionary<RolesSpies,int> RulesAgents {  get; set; }
 
-        public List<string> NameCommand { get; set; } 
+        public List<string> NameCommand { get; set; }
+        
+        public Timer Timer { get; set; }
         
         public BattleGame(List<List<WordsGame>> listWordsGame, Dictionary<RolesSpies, int> rulesAgents) 
         {
@@ -17,6 +19,7 @@ namespace CodenamesCore.Model
             ListWordsGame = listWordsGame;
             RulesAgents = rulesAgents;
             NameCommand = new List<string>() { "Синие", "Красные","" };
+            Timer = new Timer();
         }
     }
 

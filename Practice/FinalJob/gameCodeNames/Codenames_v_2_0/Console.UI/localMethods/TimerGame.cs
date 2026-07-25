@@ -20,7 +20,7 @@ namespace Consol.UI
 
         private CancellationTokenSource _cts;  // Источник токена отмены
         
-        public async Task Start(int time, int curTimeX, int curTimeY, Action onComplete)
+        public async Task Start(int time, int curTimeX, int curTimeY,string info, Action onComplete)
         {
             // Создаем новый источник отмены при каждом запуске
             _cts = new CancellationTokenSource();
@@ -33,7 +33,7 @@ namespace Consol.UI
                     _cts.Token.ThrowIfCancellationRequested();
                     Console.SetCursorPosition(curTimeX, curTimeY);
                     minuts = i / 60; second = i % 60;
-                    screen.InfoScreen($"Оставшееся время команды: {minuts}:{second}");
+                    screen.InfoScreen($"{info}: {minuts:D2}:{second:D2}");
                     await Task.Delay(1000, _cts.Token);  // Передаем токен в Delay
                     
                 }

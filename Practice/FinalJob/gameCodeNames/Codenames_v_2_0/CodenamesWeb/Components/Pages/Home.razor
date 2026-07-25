@@ -1,0 +1,127 @@
+﻿@page "/"
+<div class="game-container">
+    <!-- ЛЕВАЯ ПАНЕЛЬ (30%) -->
+    <div class="left-panel">
+        <!-- БЛОК 1: Выбор поля -->
+        <div class="block">
+            <div class="button-group-horizontal">
+                <button class="btn @(selectedField == "5x5" ? "btn-active" : "btn-inactive")"
+                        @onclick="SelectField5x5">
+                    5x5
+                </button>
+                <button class="btn @(selectedField == "5x6" ? "btn-active" : "btn-inactive")"
+                        @onclick="SelectField5x6">
+                    5x6
+                </button>
+                <button class="btn @(selectedField == "Custom" ? "btn-active" : "btn-inactive")"
+                        @onclick="SelectFieldCustom">
+                    Своё поле
+                </button>
+            </div>
+
+            @if (selectedField == "Custom")
+            {
+                <div class="custom-size-panel">
+                    <label>Строки: <input type="number" @bind="customRows" min="1" max="10" /></label>
+                    <label>Столбцы: <input type="number" @bind="customColumns" min="1" max="10" /></label>
+                </div>
+            }
+        </div>
+
+        <!-- БЛОК 2: Таймеры -->
+        <div class="block">
+            <div class="timer-input">
+                <label>Первое раздумие (кап.):</label>
+                <input type="number" @bind="firstCaptainTimer" /> сек.
+            </div>
+            <div class="timer-input">
+                <label>Раздумие капитанов:</label>
+                <input type="number" @bind="captainTimer" /> сек.
+            </div>
+            <div class="timer-input">
+                <label>Время команды:</label>
+                <input type="number" @bind="teamTimer" /> сек.
+            </div>
+        </div>
+
+        <!-- БЛОК 3: Кнопки навигации -->
+        <div class="block">
+            <button class="btn btn-action" @onclick="ShowCaptainField">Поле для капитанов</button>
+            <button class="btn btn-action" @onclick="ShowGameField">Игровое поле</button>
+        </div>
+
+        <!-- БЛОК 4: Словари + Обновить -->
+        <div class="block">
+            <select @bind="selectedDictionary" class="dropdown">
+                <option value="ru">Русский словарь</option>
+                <option value="en">English dictionary</option>
+                <option value="mix">Смешанный</option>
+            </select>
+            <button class="btn btn-action" @onclick="RefreshField">Обновить поле</button>
+        </div>
+
+        <!-- БЛОК 5: Правила и Об авторе -->
+        <div class="block footer-buttons">
+            <button class="btn btn-outline" @onclick="ShowRules">📖 Правила</button>
+            <button class="btn btn-outline" @onclick="ShowAbout">✏️ От автора</button>
+        </div>
+    </div>
+
+    <!-- ПРАВАЯ ПАНЕЛЬ (70%) -->
+    <div class="right-panel">
+        @if (currentView == "Rules")
+        {
+            <div class="output-content">
+                <h3>📜 Правила игры</h3>
+                @CodenamesCore.GameLogic.MethodsDB
+                <p>1. Ассоциации не могут быть однокоренными, содержать цифры или 1 букву.</p>
+                <p>2. Нельзя ассоциировать больше слов, чем осталось у команды.</p>
+                <p>3. При открытии чёрного слова команда проигрывает.</p>
+                <p>4. При открытии слова противника ход переходит к ним.</p>
+                <p>5. За ход нельзя открыть больше слов, чем сказал капитан.</p>
+                <p>6. При открытии мирного жителя ход остаётся, но счёт уменьшается на 1.</p>
+                <p>7. При открытии своего цвета счёт уменьшается на 1.</p>
+                <p>8. Выигрывает та команда, у которой не осталось слов, или соперник открыл чёрное.</p>
+                <p>9. Первым ходит тот, у кого больше агентов.</p>
+            </div>
+        }
+        else if (currentView == "About")
+        {
+            <div class="output-content">
+                <h3>✏️ Об авторе</h3>
+                <p>Сделано с ❤️ для любителей настольных игр.</p>
+                <p>Версия: 1.0</p>
+                <p>Год: 2026</p>
+            </div>
+        }
+        else if (currentView == "CaptainField")
+        {
+            <div class="output-content">
+                <h3>🗺️ Поле для капитана</h3>
+                <p>Здесь будет отображаться поле с цветами агентов.</p>
+                <div class="mock-grid">[СЕТКА ДЛЯ КАПИТАНА]</div>
+            </div>
+        }
+        else if (currentView == "GameField")
+        {
+            <div class="output-content">
+                <h3>🎮 Игровое поле</h3>
+                <p>Здесь будут отображаться слова для игроков.</p>
+                <div class="mock-grid">[СЕТКА СЛОВ]</div>
+            </div>
+        }
+        else
+        {
+            <div class="output-content">
+                <h3>👋 Добро пожаловать!</h3>
+                <p>Выберите раздел в левом меню:</p>
+                <ul>
+                    <li>📖 Правила</li>
+                    <li>✏️ От автора</li>
+                    <li>🗺️ Поле для капитана</li>
+                    <li>🎮 Игровое поле</li>
+                </ul>
+            </div>
+        }
+    </div>
+</div>
