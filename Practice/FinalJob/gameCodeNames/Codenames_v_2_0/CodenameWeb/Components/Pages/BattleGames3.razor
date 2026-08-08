@@ -1,0 +1,23 @@
+﻿@using Models;
+@page "/4";
+<h3>BattleGames3</h3>
+
+<div class="container">
+    @foreach (var card in Cards)
+    {
+        <div class="card @(card.IsHolding ? "holding" : "") @(card.IsFlipped ? "flipped" : "")"
+             @onmousedown="() => StartHold(card)"
+             @onmouseup="() => CancelHold(card)"
+             @onmouseleave="() => CancelHold(card)"
+             @ontouchstart="() => StartHold(card)"
+             @ontouchend="() => CancelHold(card)">
+            <div class="card-inner">
+                <div class="card-front">@card.Text</div>
+                <div class="card-back @card.ColorClass">@card.Text</div>
+                <div class="progress">
+                    <div class="progress-bar" style="width: @(card.Progress)%"></div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

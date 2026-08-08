@@ -1,0 +1,25 @@
+/* CSS for BattleCapitane component */
+.button-container {
+    display: flex;
+    justify-content: space-between; /* равномерно с отступами */
+    /* или space-evenly - равные отступы */
+    /* или space-around - отступы по краям */
+    width: 100%;
+    gap: 10px; /* промежуток между кнопками */
+}
+
+    .button-container button {
+        margin: 5px 0px;
+        flex: 1; /* все кнопки одинаковой ширины */
+        padding: 10px 20px;
+        /* или flex: 0 1 auto; - если не хотите растягивать */
+        font-size: 16px;
+    }
+
+button {
+    background-color: white;
+}
+
+h3 {
+    color: blue;
+}

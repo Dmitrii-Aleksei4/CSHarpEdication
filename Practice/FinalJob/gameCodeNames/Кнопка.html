@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Долгий клик · смена цвета</title>
+    <style>
+        /* Минимум стилей — только для кнопки */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f2f5;
+        }
+
+        .btn {
+            padding: 20px 40px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            font-family: system-ui, sans-serif;
+            border: none;
+            border-radius: 12px;
+            background: #3b82f6;      /* исходный цвет */
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* класс для "другого цвета" */
+        .btn.other {
+            background: #8b5cf6;      /* фиолетовый — другой цвет */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ТОЛЬКО КНОПКА -->
+    <button class="btn" id="btn">нажми и держи</button>
+
+    <script>
+        const btn = document.getElementById('btn');
+        let timer = null;
+
+        // Меняем цвет на другой
+        function changeColor() {
+            btn.classList.toggle('other');
+            btn.textContent = btn.classList.contains('other') ? 'цвет изменён' : 'нажми и держи';
+        }
+
+        // Мышь
+        btn.addEventListener('mousedown', () => {
+            clearTimeout(timer);
+            timer = setTimeout(changeColor, 2000);
+        });
+
+        btn.addEventListener('mouseup', () => {
+            clearTimeout(timer);
+            timer = null;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            clearTimeout(timer);
+            timer = null;
+        });
+
+        // Тач (мобильные)
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            clearTimeout(timer);
+            timer = setTimeout(changeColor, 2000);
+        }, { passive: false });
+
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            clearTimeout(timer);
+            timer = null;
+        }, { passive: false });
+
+        btn.addEventListener('touchcancel', () => {
+            clearTimeout(timer);
+            timer = null;
+        });
+
+        // Проверка, что палец на кнопке
+        btn.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+            const rect = btn.getBoundingClientRect();
+            const inside = touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                          touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+            if (!inside && timer) {
+                clearTimeout(timer);
+                timer = null;
+            }
+        }, { passive: true });
+    </script>
+
+</body>
+</html>

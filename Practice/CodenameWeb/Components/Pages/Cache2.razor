@@ -1,0 +1,150 @@
+﻿@page "/cache2"
+@inject IJSRuntime Js
+
+<h3>📦 Простой кэш с запоминанием ключа</h3>
+
+<div>
+    <label>Ключ:</label>
+    <input @bind="key" />
+    @if (!string.IsNullOrEmpty(key) && key != "my_key")
+    {
+        <span style="color: green;"> ✅ (запомнен!)</span>
+    }
+</div>
+
+<div>
+    <label>Слово:</label>
+    <input @bind="word" />
+</div>
+
+<div>
+    <button @onclick="Save">💾 Сохранить</button>
+    <button @onclick="Load">📂 Загрузить</button>
+    <button @onclick="Clear">🗑️ Удалить</button>
+    <button @onclick="RememberKey">🔑 Запомнить ключ</button>
+    <button @onclick="ForgetKey">🚫 Забыть ключ</button>
+</div>
+
+@if (!string.IsNullOrEmpty(result))
+{
+    <div style="margin-top:10px; padding:10px; background:#f0f0f0;">
+        <strong>Результат:</strong> @result
+    </div>
+}
+
+@code {
+    private string key = "my_key";
+    private string word = "Привет!";
+    private string result = "";
+
+    // ⭐ Ключ для запоминания
+    private const string REMEMBERED_KEY = "remembered_key";
+    private bool isLoading = true;
+
+    // ⭐ При загрузке страницы - восстанавливаем ключ
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadRememberedKey();
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    // ⭐ Загружаем запомненный ключ
+    private async Task LoadRememberedKey()
+    {
+        try
+        {
+            string savedKey = await Js.InvokeAsync<string>("localStorage.getItem", REMEMBERED_KEY);
+
+            if (!string.IsNullOrEmpty(savedKey))
+            {
+                key = savedKey;
+                result = $"✅ Ключ восстановлен: {key}";
+
+                // Автоматически загружаем значение по этому ключу
+                await Load();
+            }
+            else
+            {
+                result = "ℹ️ Нет сохраненного ключа. Используйте 'Запомнить ключ'";
+            }
+        }
+        catch (Exception ex)
+        {
+            result = $"❌ Ошибка: {ex.Message}";
+        }
+    }
+
+    // ⭐ Сохранить
+    private async Task Save()
+    {
+        if (string.IsNullOrEmpty(key))
+        {
+            result = "⚠️ Введите ключ!";
+            return;
+        }
+
+        await Js.InvokeVoidAsync("localStorage.setItem", key, word);
+        result = $"✅ Сохранено: {key} = {word}";
+    }
+
+    // ⭐ Загрузить
+    private async Task Load()
+    {
+        if (string.IsNullOrEmpty(key))
+        {
+            result = "⚠️ Введите ключ!";
+            return;
+        }
+
+        var value = await Js.InvokeAsync<string>("localStorage.getItem", key);
+
+        if (!string.IsNullOrEmpty(value))
+        {
+            word = value;
+            result = $"📂 Загружено: {key} = {value}";
+        }
+        else
+        {
+            result = $"❌ Ключ '{key}' не найден";
+        }
+    }
+
+    // ⭐ Удалить
+    private async Task Clear()
+    {
+        if (string.IsNullOrEmpty(key))
+        {
+            result = "⚠️ Введите ключ!";
+            return;
+        }
+
+        await Js.InvokeVoidAsync("localStorage.removeItem", key);
+        word = "";
+        result = $"🗑️ Ключ '{key}' удален";
+    }
+
+    // ⭐ ЗАПОМНИТЬ КЛЮЧ
+    private async Task RememberKey()
+    {
+        if (string.IsNullOrEmpty(key))
+        {
+            result = "⚠️ Введите ключ для запоминания!";
+            return;
+        }
+
+        await Js.InvokeVoidAsync("localStorage.setItem", REMEMBERED_KEY, key);
+        result = $"🔑 Ключ '{key}' запомнен! При следующей загрузке страницы он восстановится.";
+    }
+
+    // ⭐ ЗАБЫТЬ КЛЮЧ
+    private async Task ForgetKey()
+    {
+        await Js.InvokeVoidAsync("localStorage.removeItem", REMEMBERED_KEY);
+        result = "🚫 Ключ забыт. При следующей загрузке будет использован 'my_key'";
+        key = "my_key";
+    }
+}

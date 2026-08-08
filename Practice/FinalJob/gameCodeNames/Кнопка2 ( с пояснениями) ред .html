@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Карта с увеличением</title>
+    <style>
+        /* ===== СБРОС СТАНДАРТНЫХ ОТСТУПОВ ===== */
+        /* Убираем отступы у всех элементов и включаем box-sizing для удобства */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== ЦЕНТРИРОВАНИЕ СТРАНИЦЫ ===== */
+        /* Фон на всю высоту, содержимое по центру */
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a2e;
+            font-family: system-ui, sans-serif;
+        }
+
+        /* ===== ОБЁРТКА ДЛЯ КНОПКИ И ЭЛЕМЕНТОВ ===== */
+        /* Вертикальное выравнивание с отступами */
+       /* .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* ===== ОСНОВНОЙ БЛОК КНОПКИ ===== */
+        /* Задаём размер, включаем 3D-перспективу, отключаем выделение */
+        .btn {
+            width: 220px;
+            height: 80px;
+            perspective: 900px; /* Глубина 3D для эффекта переворота */
+            cursor: pointer;
+            user-select: none; /* Запрет выделения текста */
+            transition: transform 0.15s ease; /* Плавное увеличение */
+            -webkit-tap-highlight-color: transparent; /* Убираем подсветку на мобильных */
+        }
+
+        /* ===== ВНУТРЕННИЙ КОНТЕЙНЕР (3D-трансформация) ===== */
+        /* Именно этот блок будет поворачиваться */
+        .btn-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d; /* Сохраняем 3D для дочерних элементов */
+            border-radius: 50px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== ЛИЦЕВАЯ И ЗАДНЯЯ СТОРОНЫ ===== */
+        /* Абсолютное позиционирование, чтобы они лежали друг на друге */
+        .btn-front,
+        .btn-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            backface-visibility: hidden; /* Скрываем обратную сторону при повороте */
+            transition: background 0.4s; /* Плавная смена цвета */
+        }
+
+        /* Лицевая сторона (видна по умолчанию) */
+        .btn-front {
+            background: #e94560;
+            color: #fff;
+            transform: rotateY(0deg);
+        }
+
+        /* Задняя сторона (перевёрнута на 180 градусов) */
+        .btn-back {
+            background: #0f3460;
+            color: #fff;
+            transform: rotateY(180deg);
+        }
+
+        /* ===== УВЕЛИЧЕНИЕ ПРИ УДЕРЖАНИИ ===== */
+        /* Класс .holding добавляется через JS при нажатии */
+        .btn.holding {
+            transform: scale(1.08); /* Увеличиваем на 8% */
+        }
+
+        /* ===== ПЕРЕВОРОТ ===== */
+        /* Класс .flipped добавляется после 2 секунд удержания */
+        .btn.flipped .btn-inner {
+            transform: rotateY(180deg); /* Поворачиваем на 180 градусов */
+        }
+
+        /* ===== СМЕНА ЦВЕТА ПОСЛЕ ПЕРЕВОРОТА ===== */
+        /* Меняем цвета обеих сторон для эффекта изменения */
+        .btn.flipped .btn-front {
+            background: #e07c3c; /* Новый цвет лицевой стороны */
+        }
+        .btn.flipped .btn-back {
+            background: #16213e; /* Новый цвет задней стороны */
+        }
+
+        /* ===== ПРОГРЕСС-БАР ===== */
+        /* Показывает прогресс удержания */
+        .progress {
+            position: absolute;
+            bottom: -16px; /* Расположен под кнопкой */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 65%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0; /* Скрыт по умолчанию */
+            transition: opacity 0.3s;
+        }
+
+        /* Заполненная часть прогресс-бара */
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Начинается с 0% */
+            background: #f5c842;
+            border-radius: 10px;
+            transition: width 0.05s linear; /* Плавное заполнение */
+        }
+
+        /* Показываем прогресс-бар только при удержании */
+        .btn.holding .progress {
+            opacity: 1;
+        }
+
+        /* ===== СТАТУС И КНОПКА СБРОСА ===== */
+        /* Текстовый статус под кнопкой */
+        /*.status {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            min-height: 1.5em; /* Резервируем место, чтобы текст не прыгал */
+        }
+
+        /* Кнопка сброса состояния */
+        /*.reset {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            padding: 4px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: 0.2s;
+        }
+        .reset:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== АДАПТИВ ДЛЯ МОБИЛЬНЫХ ===== */
+        @media (max-width: 500px) {
+            .btn {
+                width: 180px;
+                height: 65px;
+            }
+            .btn-front,
+            .btn-back {
+                font-size: 0.95rem;
+                border-radius: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- ===== КНОПКА ===== -->
+        <div class="btn" id="btn">
+            <div class="btn-inner">
+                <div class="btn-front">📦 Удержи 2с</div>
+                <div class="btn-back">🎉 Открыто!</div>
+                <div class="progress">
+                    <div class="progress-bar" id="bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== СТАТУС И СБРОС ===== -->
+         <div class="status" id="status"></div>
+        <!--<button class="reset" id="reset">↻ Сбросить</button>-->
+    </div>
+
+    <script>
+        // ===== ПОЛУЧАЕМ ССЫЛКИ НА ЭЛЕМЕНТЫ =====
+        const btn = document.getElementById('btn');
+        const bar = document.getElementById('bar');
+        const status = document.getElementById('status');
+
+        // ===== ПЕРЕМЕННЫЕ СОСТОЯНИЯ =====
+        let timer = null; // Таймер на 2 секунды
+        let interval = null; // Интервал для обновления прогресс-бара
+        let flipped = false; // Флаг: перевёрнута ли кнопка
+
+        // ===== ФУНКЦИЯ СБРОСА =====
+        function reset() {
+            clearTimeout(timer); // Отменяем таймер
+            clearInterval(interval); // Отменяем интервал
+            btn.classList.remove('holding', 'flipped'); // Убираем классы
+            bar.style.width = '0%'; // Сбрасываем прогресс
+            flipped = false; // Снимаем флаг
+            status.textContent = 'Зажми на 2 секунды'; // Обновляем статус
+        }
+
+        // ===== ФУНКЦИЯ НАЧАЛА УДЕРЖАНИЯ =====
+        function startHold() {
+            if (flipped) {
+                status.textContent = '🔒 Уже открыта';
+                return; // Если уже перевёрнута — выходим
+            }
+
+            btn.classList.add('holding'); // Добавляем класс увеличения
+            let progress = 0;
+            bar.style.width = '0%';
+            status.textContent = '⏳ Открываю...';
+
+            // Запускаем интервал для прогресс-бара (обновление каждые 50мс)
+            interval = setInterval(() => {
+                progress += 2.5; // 100% за 2 секунды (2000/50 = 40 шагов, 100/40 = 2.5)
+                if (progress >= 100) progress = 100;
+                bar.style.width = progress + '%';
+            }, 50);
+
+            // Запускаем таймер на 2 секунды
+            timer = setTimeout(() => {
+                // ===== ПЕРЕВОРОТ =====
+                btn.classList.add('flipped'); // Добавляем класс переворота
+                flipped = true; // Устанавливаем флаг
+                status.textContent = '✅ Открыто!';
+                clearInterval(interval); // Останавливаем интервал
+                btn.classList.remove('holding'); // Убираем увеличение
+                bar.style.width = '100%'; // Прогресс на 100%
+            }, 2000);
+        }
+
+        // ===== ФУНКЦИЯ ОТМЕНЫ УДЕРЖАНИЯ =====
+        function cancelHold() {
+            if (flipped) {
+                btn.classList.remove('holding');
+                clearInterval(interval);
+                clearTimeout(timer);
+                return;
+            }
+            // Если не перевёрнута — просто сбрасываем
+            clearTimeout(timer);
+            clearInterval(interval);
+            btn.classList.remove('holding');
+            bar.style.width = '0%';
+            status.textContent = 'Зажми на 2 секунды';
+        }
+
+        // ===== СОБЫТИЯ ДЛЯ МЫШИ =====
+        btn.addEventListener('mousedown', startHold); // Нажатие
+        btn.addEventListener('mouseup', cancelHold); // Отпускание
+        btn.addEventListener('mouseleave', cancelHold); // Уход курсора
+
+        // ===== СОБЫТИЯ ДЛЯ ТАЧ-УСТРОЙСТВ =====
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Отключаем скролл
+            startHold();
+        }, { passive: false });
+
+        btn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            cancelHold();
+        }, { passive: false });
+
+        btn.addEventListener('touchcancel', cancelHold); // Отмена системой
+
+        // ===== КНОПКА СБРОСА =====
+        document.getElementById('reset').addEventListener('click', reset);
+
+        // ===== КЛИК ПО ПЕРЕВЁРНУТОЙ КНОПКЕ =====
+        btn.addEventListener('click', () => {
+            if (flipped) status.textContent = '🔁 Нажми Сброс';
+        });
+    </script>
+</body>
+</html>

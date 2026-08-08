@@ -1,0 +1,138 @@
+﻿@page "/1"
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 40px;
+        background: #1a1a2e;
+        min-height: 100vh;
+        font-family: system-ui, sans-serif;
+    }
+
+    .time {
+        font-size: 5rem;
+        font-weight: 700;
+        color: white;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px 50px;
+        border-radius: 16px;
+        min-width: 200px;
+        text-align: center;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 10px 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        color: white;
+        min-width: 100px;
+    }
+
+    .btn-start {
+        background: #22c55e;
+    }
+
+        .btn-start:hover:not(:disabled) {
+            background: #16a34a;
+        }
+
+    .btn-stop {
+        background: #f59e0b;
+    }
+
+        .btn-stop:hover:not(:disabled) {
+            background: #d97706;
+        }
+
+    .btn-reset {
+        background: #6b7280;
+    }
+
+        .btn-reset:hover:not(:disabled) {
+            background: #4b5563;
+        }
+
+    .btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+</style>
+
+<div class="container">
+    <h2 style="color: white;">⏱️ Асинхронный таймер</h2>
+
+    <div class="time">@($"{(int)Seconds / 60:D2}:{(int)Seconds % 60:D2}")</div>
+
+    <div class="buttons">
+        <button class="btn btn-start" @onclick="Start" disabled="@IsRunning">▶ Старт</button>
+        <button class="btn btn-stop" @onclick="Stop" disabled="@(!IsRunning)">⏸ Стоп</button>
+        <button class="btn btn-reset" @onclick="Reset" disabled="@(Seconds == 0)">⟳ Сброс</button>
+    </div>
+</div>
+
+@code {
+    private int Seconds = 115;
+    private bool IsRunning = false;
+    private CancellationTokenSource? cts;
+
+    private async Task Start()
+    {
+        if (IsRunning) return;
+
+        IsRunning = true;
+        cts = new CancellationTokenSource();
+
+        try
+        {
+            while (!cts.Token.IsCancellationRequested)
+            {
+                await Task.Delay(1000, cts.Token); // Каждую секунду
+                Seconds++;
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // Остановлено
+        }
+        finally
+        {
+            IsRunning = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void Stop()
+    {
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = null;
+    }
+
+    private void Reset()
+    {
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = null;
+        IsRunning = false;
+        Seconds = 0;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        cts?.Cancel();
+        cts?.Dispose();
+    }
+}

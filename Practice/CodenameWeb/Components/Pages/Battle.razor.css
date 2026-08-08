@@ -1,0 +1,108 @@
+/* CSS for Battle component */
+.container {
+    display: flex;
+    justify-content: space-between; /* равномерно с отступами */
+    /* или space-evenly - равные отступы */
+    /* или space-around - отступы по краям */
+    width: 100%;
+    gap: 10px; /* промежуток между кнопками */
+}
+
+.card {
+    width: 200px;
+    height: 80px;
+    perspective: 900px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    border-radius: 40px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    backface-visibility: hidden;
+}
+
+.card-front {
+    background: white;
+    color: #1a1a2e;
+    transform: rotateY(0deg);
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    color: white;
+}
+
+    /* Цвета задней стороны */
+    .card-back.blue {
+        background: #2563eb;
+    }
+
+    .card-back.red {
+        background: #dc2626;
+    }
+
+    .card-back.green {
+        background: #16a34a;
+    }
+
+/* Увеличение при удержании */
+.card.holding {
+    transform: scale(1.08);
+}
+
+/* Переворот */
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Прогресс-бар */
+.progress {
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65%;
+    height: 5px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #fbbf24;
+    border-radius: 10px;
+    transition: width 1.8s linear;
+}
+
+
+
+
+
+
+
+
+.card.holding .progress {
+    opacity: 1;
+}

@@ -1,0 +1,52 @@
+﻿@inject IJSRuntime Js
+@page "/cache"
+
+<h3>cache</h3>
+<h3>📦 Простой кэш</h3>
+
+<div>
+    <label>Ключ:</label>
+    <input @bind="key" />
+</div>
+
+<div>
+    <label>Слово:</label>
+    <input @bind="word" />
+</div>
+
+<button @onclick="Save">Сохранить</button>
+<button @onclick="Load">Загрузить</button>
+<button @onclick="Clear">Удалить</button>
+
+@if (!string.IsNullOrEmpty(result))
+{
+    <div style="margin-top:10px; padding:10px; background:#f0f0f0;">
+        <strong>Результат:</strong> @result
+    </div>
+}
+
+@code {
+    private string key = "my_key";
+    private string word = "Привет!";
+    private string result = "";
+
+    private async Task Save()
+    {
+        await Js.InvokeVoidAsync("localStorage.setItem", key, word);
+        result = $"✅ Сохранено: {key} = {word}";
+    }
+
+    private async Task Load()
+    {
+        var value = await Js.InvokeAsync<string>("localStorage.getItem", key);
+        result = string.IsNullOrEmpty(value)
+            ? $"❌ Ключ '{key}' не найден"
+            : $"📂 Загружено: {value}";
+    }
+
+    private async Task Clear()
+    {
+        await Js.InvokeVoidAsync("localStorage.removeItem", key);
+        result = $"🗑️ Ключ '{key}' удален";
+    }
+}

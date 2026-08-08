@@ -1,0 +1,94 @@
+﻿@page "/key-remember"
+@using CodenameWeb.Services
+@inject SimpleCache Cache
+
+<h3>🔑 Запоминание ключа</h3>
+
+<div>
+    <label>Ваш ключ:</label>
+    <input @bind="myKey" placeholder="Введите ключ" />
+    @if (!string.IsNullOrEmpty(myKey))
+    {
+        <span style="color: green;"> ✅ (запомнен!)</span>
+    }
+</div>
+
+<button @onclick="SaveKey">💾 Запомнить ключ</button>
+<button @onclick="ClearKey">🗑️ Забыть ключ</button>
+
+<p style="margin-top: 10px;">@result</p>
+
+@code {
+    private string myKey = "";
+    private string result = "";
+    private const string SAVED_KEY = "remembered_key";
+    private bool isLoaded = false;
+
+    // ⭐ ИСПРАВЛЕНО: Используем OnAfterRenderAsync для Blazor Server
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !isLoaded)
+        {
+            isLoaded = true;
+            await LoadKey();
+            StateHasChanged(); // Обновляем UI после загрузки
+        }
+    }
+
+    // ⭐ Загружаем ключ из кэша
+    private async Task LoadKey()
+    {
+        try
+        {
+            string saved = await Cache.GetAsync(SAVED_KEY);
+            if (!string.IsNullOrEmpty(saved))
+            {
+                myKey = saved;
+                result = $"✅ Ключ восстановлен: {myKey}";
+            }
+            else
+            {
+                result = "ℹ️ Ключ не найден, введите новый";
+            }
+        }
+        catch (Exception ex)
+        {
+            result = $"❌ Ошибка загрузки: {ex.Message}";
+        }
+    }
+
+    // ⭐ Сохраняем ключ
+    private async Task SaveKey()
+    {
+        if (string.IsNullOrEmpty(myKey))
+        {
+            result = "⚠️ Введите ключ!";
+            return;
+        }
+
+        try
+        {
+            await Cache.SetAsync(SAVED_KEY, myKey);
+            result = $"✅ Ключ '{myKey}' запомнен!";
+        }
+        catch (Exception ex)
+        {
+            result = $"❌ Ошибка сохранения: {ex.Message}";
+        }
+    }
+
+    // ⭐ Удаляем ключ
+    private async Task ClearKey()
+    {
+        try
+        {
+            await Cache.RemoveAsync(SAVED_KEY);
+            myKey = "";
+            result = "🗑️ Ключ забыт";
+        }
+        catch (Exception ex)
+        {
+            result = $"❌ Ошибка удаления: {ex.Message}";
+        }
+    }
+}

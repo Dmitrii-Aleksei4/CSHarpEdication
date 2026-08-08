@@ -1,0 +1,27 @@
+﻿@using CodenamesCore.Model
+
+
+@page "/3";
+
+<h3>BattleCapitane</h3>
+
+@for (int y = 0; y < battleGame.ListWordsGame.Count; y++)
+{
+    <div class="button-container" >
+        @for (int x = 0; x < battleGame.ListWordsGame[y].Count; x++)
+        {
+            var color = battleGame.ListWordsGame[y][x].SecretWords.FirstOrDefault().Value;
+            
+            string backColor = color switch
+            {
+                
+                RolesSpies.blue => "rgba(0, 0, 255, 0.5)",    // синий с прозрачностью 50%
+                RolesSpies.red => "rgba(255, 0, 0, 0.4)",     // красный с прозрачностью 50%
+                RolesSpies.black => "rgba(0, 255, 255, 0.3)", // циан с прозрачностью 50%
+                _ => "rgba(255, 255, 255, 0.3)"              // белый с прозрачностью 50%
+            };
+            <button clss="game_btn" ; style="background-color: @backColor;"> @battleGame.ListWordsGame[y][x].DispleyScren()</button>
+        }
+    </div>
+
+}

@@ -1,0 +1,68 @@
+
+/* CSS for BatteGames component */
+.button-container {
+    display: flex;
+    justify-content: space-between; /* равномерно с отступами */
+    /* или space-evenly - равные отступы */
+    /* или space-around - отступы по краям */
+    width: 100%;
+    gap: 10px; /* промежуток между кнопками */
+}
+
+.button-container button {
+    margin: 5px 0px;
+    flex: 1; /* все кнопки одинаковой ширины */
+    padding: 10px 20px;
+    /* или flex: 0 1 auto; - если не хотите растягивать */
+    font-size: 16px;
+}
+
+button {
+    background-color: white;
+}
+
+h3{
+    color: blue;
+}
+
+/* сонтайнер с командами */
+.container {
+    width: 95%;
+   /* max-width: 1200px;  опционально */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.commands {
+    display: flex;
+    gap: 0; /* без отступов между блоками */
+    width: 100%;
+}
+
+.command_blue {
+    flex: 0 0 45%;
+    width: 45%;
+    background: rgba(0, 0, 255, 0.1);
+    border: 1px solid blue;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.info {
+    flex: 0 0 10%;
+    width: 10%;
+    background: rgba(128, 128, 128, 0.1);
+    border: 1px solid gray;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.command_red {
+    flex: 0 0 45%;
+    width: 45%;
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid red;
+    padding: 20px;
+    box-sizing: border-box;
+}

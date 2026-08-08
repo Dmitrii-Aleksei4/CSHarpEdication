@@ -1,0 +1,45 @@
+﻿@using CodenamesCore.Model;
+@page "/2"
+
+<h3>Игровое поле</h3>
+<div class="container">Таймер</div>
+
+<div class="container">
+
+    @for (int y = 0; y < battleGame.ListWordsGame.Count; y++)
+    {
+        <div class="button-container">
+            @for (int x = 0; x < battleGame.ListWordsGame[y].Count; x++)
+            {
+                <button clss="game_btn"> @battleGame.ListWordsGame[y][x].DispleyScren()</button>
+            }
+        </div>
+
+    }
+
+</div>
+<div class="container">
+    <div class="commands">
+        <div class="command_blue">
+            @battleGame.NameCommand[0]: @battleGame.RulesAgents[RolesSpies.blue].ToString()
+
+        </div>
+        <div class="info">
+            Меню:
+
+        </div>
+
+
+        <div class="command_red">
+            @battleGame.NameCommand[1]: @battleGame.RulesAgents[RolesSpies.red].ToString()
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<h3>@cne</h3>

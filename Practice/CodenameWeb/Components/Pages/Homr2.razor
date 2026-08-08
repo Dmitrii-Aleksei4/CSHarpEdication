@@ -1,0 +1,122 @@
+﻿@inject IJSRuntime Js
+@inject NavigationManager NavigationManager
+@using CodenamesCore.Model;
+@page "/"
+
+<div class="game-container">
+    <!-- ЛЕВАЯ ПАНЕЛЬ -->
+    <div class="left-panel">
+        <!-- БЛОК: Синхронизирующее слово -->
+        <div class="block">
+            <div class="block-label">🔑 Синхронизирующее слово</div>
+            <div class="flex-row">
+                <input class="cache-input" @bind="key" placeholder="Введите ключ" />
+                <button class="btn btn-primary" @onclick="NewKey">Обновить</button>
+            </div>
+        </div>
+
+        <!-- БЛОК 1: Выбор поля -->
+        <div class="block">
+            <div class="block-label">📐 Размер поля</div>
+            <div class="flex-row">
+                <button class="btn @(selectedField == "5x5" ? "btn-active" : "btn-inactive")"
+                        @onclick="SelectField5x5">
+                    5x5
+                </button>
+                <button class="btn @(selectedField == "5x6" ? "btn-active" : "btn-inactive")"
+                        @onclick="SelectField5x6">
+                    5x6
+                </button>
+                <button class="btn @(selectedField == "Custom" ? "btn-active" : "btn-inactive")"
+                        @onclick="SelectFieldCustom">
+                    Своё
+                </button>
+            </div>
+
+            @if (selectedField == "Custom")
+            {
+                <div class="flex-row custom-size-panel">
+                    <label>Строки: <input type="number" @bind="customRows" min="1" max="6" /></label>
+                    <label>Столбцы: <input type="number" @bind="customColumns" min="1" max="6" /></label>
+                </div>
+            }
+        </div>
+
+        <!-- БЛОК 2: Навигация -->
+        <div class="block">
+            <div class="flex-row">
+                <button class="btn btn-action" @onclick="ShowCaptainField">🗺️ Поле капитанов</button>
+                <button class="btn btn-action" @onclick="ShowGameField">🎮 Игровое поле</button>
+            </div>
+        </div>
+
+        <!-- БЛОК 3: Словари + Обновить -->
+        <div class="block">
+            <div class="flex-row">
+                <select @bind="selectedDictionary" class="dropdown">
+                    <option value="ru">🇷🇺 Русский</option>
+                    <option value="en">🇬🇧 English</option>
+                    <option value="mix">🔀 Смешанный</option>
+                </select>
+                <button class="btn btn-action" @onclick="RefreshField">🔄 Обновить</button>
+            </div>
+        </div>
+
+        <!-- БЛОК 4: Правила и Об авторе -->
+        <div class="block footer-buttons">
+            <div class="flex-row">
+                <button class="btn btn-outline" @onclick="ShowRules">📖 Правила</button>
+                <button class="btn btn-outline" @onclick="ShowAbout">✏️ От автора</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПРАВАЯ ПАНЕЛЬ -->
+    <div class="right-panel">
+        @if (currentView == "Rules")
+        {
+            <div class="output-content">
+                <h3>📜 Правила игры</h3>
+                <p>@rules</p>
+            </div>
+        }
+        else if (currentView == "About")
+        {
+            <div class="output-content">
+                <h3>✏️ Об авторе</h3>
+                <p>Сделано с ❤️ для любителей настольных игр.</p>
+                <p>Версия: 1.0</p>
+                <p>Год: 2026</p>
+            </div>
+        }
+        else if (currentView == "CaptainField")
+        {
+            <div class="output-content">
+                <h3>🗺️ Поле для капитана</h3>
+                <p>Здесь будет отображаться поле с цветами агентов.</p>
+                <div class="mock-grid">[СЕТКА ДЛЯ КАПИТАНА]</div>
+            </div>
+        }
+        else if (currentView == "GameField")
+        {
+            <div class="output-content">
+                <h3>🎮 Игровое поле</h3>
+                <p>Здесь будут отображаться слова для игроков.</p>
+                <div class="mock-grid">[СЕТКА СЛОВ]</div>
+            </div>
+        }
+        else
+        {
+            <div class="output-content">
+                <h3>👋 Добро пожаловать!</h3>
+                <p>Выберите раздел в левом меню:</p>
+                <ul>
+                    <li>📖 Правила</li>
+                    <li>✏️ От автора</li>
+                    <li>🗺️ Поле для капитана</li>
+                    <li>🎮 Игровое поле</li>
+                </ul>
+            </div>
+        }
+    </div>
+</div>

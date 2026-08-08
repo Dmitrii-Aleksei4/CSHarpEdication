@@ -1,0 +1,296 @@
+/* ⭐ ОСНОВНОЙ КОНТЕЙНЕР */
+.game-container {
+    display: flex;
+    gap: 20px;
+    height: 100vh;
+    padding: 20px;
+    background: #f0f2f5;
+    box-sizing: border-box;
+}
+
+/* ⭐ ЛЕВАЯ ПАНЕЛЬ */
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 30%;
+    min-width: 300px;
+    max-width: 400px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow-y: auto;
+}
+
+/* ⭐ ПРАВАЯ ПАНЕЛЬ */
+.right-panel {
+    flex: 1;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow-y: auto;
+}
+
+/* ⭐ БЛОКИ В ЛЕВОЙ ПАНЕЛИ */
+.block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.block-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    letter-spacing: 0.3px;
+}
+
+/* ⭐ FLEX-СТРОКА */
+.flex-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+    .flex-row .btn {
+        flex: 0 1 auto;
+    }
+
+/* ⭐ ИНПУТЫ */
+.cache-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    min-width: 80px;
+    transition: border-color 0.2s;
+}
+
+    .cache-input:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+
+/* ⭐ КНОПКИ */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+/* Активная кнопка (синяя) */
+.btn-active {
+    background: #007bff;
+    color: white;
+}
+
+    .btn-active:hover {
+        background: #0056b3;
+    }
+
+/* Неактивная кнопка (серая) */
+.btn-inactive {
+    background: #e9ecef;
+    color: #495057;
+}
+
+    .btn-inactive:hover {
+        background: #dee2e6;
+    }
+
+/* Кнопка действия (зелёная) */
+.btn-action {
+    background: #28a745;
+    color: white;
+    flex: 1;
+    text-align: center;
+}
+
+    .btn-action:hover {
+        background: #1e7e34;
+    }
+
+/* Кнопка с обводкой */
+.btn-outline {
+    background: transparent;
+    color: #007bff;
+    border: 1.5px solid #007bff;
+    flex: 1;
+    text-align: center;
+}
+
+    .btn-outline:hover {
+        background: #007bff;
+        color: white;
+    }
+
+/* Основная кнопка (синяя) */
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+    .btn-primary:hover {
+        background: #0056b3;
+    }
+
+/* ⭐ ДРОПДАУН */
+.dropdown {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    min-width: 120px;
+    cursor: pointer;
+}
+
+    .dropdown:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+
+/* ⭐ КАСТОМНЫЕ РАЗМЕРЫ */
+.custom-size-panel {
+    padding-top: 4px;
+}
+
+    .custom-size-panel label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #495057;
+    }
+
+    .custom-size-panel input {
+        width: 48px;
+        padding: 4px 6px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+        .custom-size-panel input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+        }
+
+/* ⭐ ПРАВАЯ ПАНЕЛЬ - КОНТЕНТ */
+.output-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+    .output-content h3 {
+        margin: 0 0 16px 0;
+        color: #212529;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 12px;
+        font-size: 20px;
+    }
+
+    .output-content p {
+        color: #495057;
+        line-height: 1.7;
+        margin: 6px 0;
+    }
+
+    .output-content ul {
+        padding-left: 24px;
+        color: #495057;
+        margin: 8px 0;
+    }
+
+        .output-content ul li {
+            margin: 6px 0;
+            line-height: 1.6;
+        }
+
+/* ⭐ MOCK GRID */
+.mock-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: 200px;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    color: #6c757d;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* ⭐ АДАПТИВНОСТЬ (мобильные) */
+@media (max-width: 820px) {
+    .game-container {
+        flex-direction: column;
+        height: auto;
+        padding: 12px;
+    }
+
+    .left-panel {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+    }
+
+    .right-panel {
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel {
+        padding: 12px;
+    }
+
+    .right-panel {
+        padding: 12px;
+    }
+
+    .block {
+        padding: 10px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .cache-input {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+    .dropdown {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+    .output-content h3 {
+        font-size: 17px;
+    }
+}

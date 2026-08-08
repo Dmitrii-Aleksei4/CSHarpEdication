@@ -1,0 +1,75 @@
+﻿@using CodenamesCore.Model;
+@page "/battleGames";
+<h3>BattleGames4</h3>
+
+<div class="container"> 
+   
+    
+</div>
+<div class="container">
+    @for (var y=0; y<Cards.Count; y++)
+    {
+        <div class="button-container">
+        @for (var x = 0; x < Cards[y].Count; x++)
+        {
+
+                var card = Cards[y][x];
+            <div class="card @(card.IsHolding ? "holding" : "") @(card.IsFlipped ? "flipped" : "")"
+            @onmousedown="() => StartHold(card)"
+            @onmouseup="() => CancelHold(card)"
+            @onmouseleave="() => CancelHold(card)"
+            @ontouchstart="() => StartHold(card)"
+            @ontouchend="() => CancelHold(card)">
+                <div class="card-inner">
+                    <div class="card-front">@card.Text</div>
+                    <div class="card-back @card.ColorClass">@card.Text</div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: @(card.Progress)%"></div>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    }
+</div>
+    <!-- футер -->
+    <div class="container">
+        <div class="commands">
+            <div class="command_blue">
+                @battleGame.NameCommand[0]: @battleGame.RulesAgents[RolesSpies.blue].ToString()
+
+            </div>
+            <div class="info">
+            
+
+                <div class="time">@($"{(int)Seconds / 60:D2}:{(int)Seconds % 60:D2}")</div>
+
+                <div class="buttons">
+                    <button class="btn btn-start" @onclick="Start" disabled="@IsRunning">▶</button>
+                    <button class="btn btn-stop" @onclick="Stop" disabled="@(!IsRunning)">⏸</button>
+                    <button class="btn btn-reset" @onclick="Reset" disabled="@(Seconds == 0)">⟳</button>
+            </div>
+
+            </div>
+
+
+            <div class="command_red">
+                @battleGame.NameCommand[1]: @battleGame.RulesAgents[RolesSpies.red].ToString()
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- Невидимый слой  -->
+
+@if (showEndScrean)
+{
+    <div class="fullscreen-overlay">
+        <div class="popup-box">
+            <h1>🎉 ПОЗДРАВЛЯЮ! 
+             @infoscrean</h1>
+            <button class="btn btn-success" @onclick="ResetGame">Начать заново</button>
+        </div>
+    </div>
+}

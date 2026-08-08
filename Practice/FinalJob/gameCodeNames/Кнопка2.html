@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Карта с увеличением при удержании</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a2e;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* ===== КНОПКА-КАРТА ===== */
+        .btn {
+            width: 220px;
+            height: 80px;
+            perspective: 900px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s;
+            transform-style: preserve-3d;
+            border-radius: 50px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            will-change: transform;
+        }
+
+        .btn-front,
+        .btn-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            backface-visibility: hidden;
+            transition: background 0.4s;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        .btn-front {
+            background: #e94560;
+            color: #fff;
+            transform: rotateY(0deg);
+        }
+
+        .btn-back {
+            background: #0f3460;
+            color: #fff;
+            transform: rotateY(180deg);
+        }
+
+        /* ===== УВЕЛИЧЕНИЕ ВО ВРЕМЯ УДЕРЖАНИЯ ===== */
+        .btn.holding {
+            transform: scale(1.08);
+            transition: transform 0.15s ease;
+        }
+
+        /* ===== ПЕРЕВОРОТ ===== */
+        .btn.flipped .btn-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* ===== СМЕНА ЦВЕТА ПОСЛЕ ПЕРЕВОРОТА ===== */
+        .btn.flipped .btn-front {
+            background: #e07c3c;
+        }
+        .btn.flipped .btn-back {
+            background: #16213e;
+        }
+
+        /* ===== ПРОГРЕСС-БАР ===== */
+        .progress {
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 65%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #f5c842;
+            border-radius: 10px;
+            transition: width 0.05s linear;
+        }
+
+        .btn.holding .progress {
+            opacity: 1;
+        }
+
+        /* ===== СТАТУС ===== */
+        .status {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            min-height: 1.5em;
+        }
+
+        .reset {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            padding: 4px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: 0.2s;
+        }
+        .reset:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 500px) {
+            .btn {
+                width: 180px;
+                height: 65px;
+            }
+            .btn-front,
+            .btn-back {
+                font-size: 0.95rem;
+                border-radius: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- КНОПКА-КАРТА -->
+        <div class="btn" id="btn">
+            <div class="btn-inner">
+                <div class="btn-front">📦 Удержи 2с</div>
+                <div class="btn-back">🎉 Открыто!</div>
+                <div class="progress">
+                    <div class="progress-bar" id="bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status" id="status">Зажми на 2 секунды</div>
+        <button class="reset" id="reset">↻ Сбросить</button>
+    </div>
+
+    <script>
+        const btn = document.getElementById('btn');
+        const bar = document.getElementById('bar');
+        const status = document.getElementById('status');
+
+        let timer = null;
+        let interval = null;
+        let flipped = false;
+
+        function reset() {
+            clearTimeout(timer);
+            clearInterval(interval);
+            btn.classList.remove('holding', 'flipped');
+            bar.style.width = '0%';
+            flipped = false;
+            status.textContent = 'Зажми на 2 секунды';
+        }
+
+        function startHold() {
+            if (flipped) {
+                status.textContent = '🔒 Уже открыта';
+                return;
+            }
+
+            btn.classList.add('holding');
+            let progress = 0;
+            bar.style.width = '0%';
+            status.textContent = '⏳ Открываю...';
+
+            interval = setInterval(() => {
+                progress += 2.5;
+                if (progress >= 100) progress = 100;
+                bar.style.width = progress + '%';
+            }, 50);
+
+            timer = setTimeout(() => {
+                // ПЕРЕВОРОТ + СМЕНА ЦВЕТА
+                btn.classList.add('flipped');
+                flipped = true;
+                status.textContent = '✅ Открыто! Цвет изменён';
+                clearInterval(interval);
+                btn.classList.remove('holding');
+                bar.style.width = '100%';
+            }, 2000);
+        }
+
+        function cancelHold() {
+            if (flipped) {
+                btn.classList.remove('holding');
+                clearInterval(interval);
+                clearTimeout(timer);
+                return;
+            }
+            clearTimeout(timer);
+            clearInterval(interval);
+            btn.classList.remove('holding');
+            bar.style.width = '0%';
+            status.textContent = 'Зажми на 2 секунды';
+        }
+
+        // --- СОБЫТИЯ ---
+        btn.addEventListener('mousedown', startHold);
+        btn.addEventListener('mouseup', cancelHold);
+        btn.addEventListener('mouseleave', cancelHold);
+
+        btn.addEventListener('touchstart', (e) => { e.preventDefault();
+            startHold(); }, { passive: false });
+        btn.addEventListener('touchend', (e) => { e.preventDefault();
+            cancelHold(); }, { passive: false });
+        btn.addEventListener('touchcancel', cancelHold);
+
+        document.getElementById('reset').addEventListener('click', reset);
+
+        btn.addEventListener('click', () => {
+            if (flipped) status.textContent = '🔁 Нажми Сброс';
+        });
+    </script>
+
+</body>
+</html>

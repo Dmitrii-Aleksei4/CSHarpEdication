@@ -30,7 +30,9 @@ namespace CodenamesCore.Model
             };
             VisibilityColor = false;
 
-    }
+        }
+
+        public WordsGame() { }
         #endregion
     }
 }
